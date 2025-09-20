@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState, type FormEvent } from "react";
+import React, { useEffect, useMemo, useState, type FormEvent} from "react";
 
 type Todo = { id: string; title: string; done: boolean };
 const STORAGE_KEY = "todo:v2";
@@ -11,7 +11,6 @@ export default function TodoPage() {
   const [editId, setEditId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState<string>("");
 
-  // Load from localStorage on mount
   const isTodo = (x: unknown): x is Todo => {
     if (typeof x !== "object" || x === null) return false;
     const o = x as Record<string, unknown>;
@@ -21,7 +20,7 @@ export default function TodoPage() {
       typeof o.done === "boolean"
     );
   };
-
+  
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -30,16 +29,13 @@ export default function TodoPage() {
         if (Array.isArray(parsed)) setTodos(parsed.filter(isTodo));
       }
     } catch {
-      // ignore malformed storage
     }
   }, []);
 
-  // Persist to localStorage on change
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
     } catch {
-      // ignore quota errors
     }
   }, [todos]);
 
@@ -53,11 +49,9 @@ export default function TodoPage() {
     setTodos((prev) => [todo, ...prev]);
     setInput("");
   };
-
   const toggle = (id: string) => {
     setTodos((prev) => prev.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
   };
-
   const remove = (id: string) => {
     setTodos((prev) => prev.filter((t) => t.id !== id));
     if (editId === id) cancelEdit();
@@ -77,18 +71,17 @@ export default function TodoPage() {
 
   const saveEdit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!editId) return;
-    const value = editTitle.trim();
-    if (!value) return cancelEdit();
-    setTodos((prev) => prev.map((t) => (t.id === editId ? { ...t, title: value } : t)));
-    cancelEdit();
+      if (!editId) return;
+      const value = editTitle.trim();
+      if (!value) return cancelEdit();
+      setTodos((prev) => prev.map((t) => (t.id === editId ? { ...t, title: value } : t)));
+      cancelEdit();
   };
 
   return (
     <main className="p-6 space-y-6">
       <h1 className="text-2xl font-bold">Todo Page</h1>
 
-      {/* Add form */}
       {!isEditing && (
         <form onSubmit={addTodo} className="flex gap-2">
           <input
@@ -104,22 +97,21 @@ export default function TodoPage() {
         </form>
       )}
 
-      {/* Edit form */}
       {isEditing && (
         <form onSubmit={saveEdit} className="flex gap-2">
-          <input
-            type="text"
-            value={editTitle}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEditTitle(e.target.value)}
-            placeholder="編集内容を入力"
-            className="border px-3 py-2 rounded w-full text-black"
-          />
-          <button type="button" onClick={cancelEdit} className="px-4 py-2 rounded border">
-            キャンセル
-          </button>
-          <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded">
-            保存
-          </button>
+          <input 
+          type="text"
+          value={editTitle}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEditTitle(e.target.value)}
+          placeholder="編集内容を入力"
+          className="border px-3 py-2 rounded w-full text-black"
+        />
+        <button type="button" onClick={cancelEdit} className="px-4 py-2 rounded border">
+          キャンセル  
+        </button>  
+        <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded">
+          保存
+        </button>
         </form>
       )}
 
@@ -137,7 +129,7 @@ export default function TodoPage() {
               className={t.done ? "line-through text-gray-500" : ""}
             >
               {t.title}
-            </label>
+            </label> 
             <div className="ml-auto flex gap-2">
               <button
                 type="button"
@@ -154,7 +146,7 @@ export default function TodoPage() {
               >
                 削除
               </button>
-            </div>
+            </div> 
           </li>
         ))}
       </ul>
