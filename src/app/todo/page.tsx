@@ -96,7 +96,7 @@ export default function TodoPage() {
             value={input}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
             placeholder="タスクを入力"
-            className="border px-3 py-2 rounded w-full"
+            className="border px-3 py-2 rounded w-full text-black"
           />
           <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
             追加
@@ -112,7 +112,7 @@ export default function TodoPage() {
             value={editTitle}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEditTitle(e.target.value)}
             placeholder="編集内容を入力"
-            className="border px-3 py-2 rounded w-full"
+            className="border px-3 py-2 rounded w-full text-black"
           />
           <button type="button" onClick={cancelEdit} className="px-4 py-2 rounded border">
             キャンセル
