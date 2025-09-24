@@ -1,35 +1,41 @@
 "use client"
 
-import React, {useEffect, useMemo, useState, type FormEvent} from "react";
+import React, {useEffect, useMemo, useState, type FormEvent} from "react"
 
+// 1) Type
 type Todo = {id: string; title: string; done: boolean};
-const STORAGE_KEY = "todo:v2";
+const STORAGE_KEY = "todo:v2"
 
-export default function TodoPage() {
-  //state
+// 2) Component
+export default function TodoPage () {
+  // State（型に注意）  
   const [todos, setTodos] = useState<Todo[]>([]);
   const [input, setInput] = useState<string>("");
   const [editId, setEditId] = useState<string | null>(null);
-  const [editTitle, setEditTitle] =useState<string>("");
-
-  const isTodo = (x: unknown) : x is Todo => {
-    //TODO 
+  const [editTitle, setEditTitle] =useState<string>("")
+  
+  // 型ガード（骨組みなので一旦 true でOK）
+  const isTodo = (x: unknown): x is Todo => {
+    //TODO
     return true;
   };
-
+  
+  // Effects: load
   useEffect(() => {
-
+  
   },[]);
-
+  
+  // Effects: persist
   useEffect(() => {
+  
+  },[todos]);
 
-  },[todos])
+  // Derived  
+  const isEditing = useMemo(() => editId !==null, [editId]);
 
-  const isEditing = useMemo(() => editId !== null, [editId]);
-
+  // Functions（宣言だけにしてTODOコメント）
   const addTodo = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
   };
 
   const toggle = (id: string) => {
@@ -53,20 +59,22 @@ export default function TodoPage() {
 
   };
 
+  //UI
   return (
-    <main className="p-6 space-y-6">
+    <main className="p-6 spase-y-6">
       <h1 className="text-2xl font-bold">Todo Page</h1>
 
       {!isEditing && (
         <form onSubmit={addTodo} className="flex gap-2">
-          <input 
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="タスクを入力"
-            className="border px-3 py-2 rounded w-full text-black"
-          />
-          <button className="bg-blue-600 text-white px-4 py-2 rounded">追加</button>
+
+         <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="タスクを入力"
+          className="border px-3 py-2 rounded w-full text-black"
+        />
+        <button className="bg-blue-600 text-white px-4 py-2 rounded">追加</button>        
         </form>
       )}
 
@@ -86,7 +94,7 @@ export default function TodoPage() {
         </form>
       )}
 
-      <ul className="space-y-2">
+      <ul className=" space-y-2">
         {todos.map((t) => (
           <li key={t.id} className="flex items-center gap-3">
             <input
@@ -95,9 +103,12 @@ export default function TodoPage() {
               checked={t.done}
               onChange={() => toggle(t.id)}
             />
-            <label htmlFor={`todo-${t.id}`} className={t.done ? "line-through text-gray-500" : ""}>
-            {t.title}
-            </label> 
+            <label
+              htmlFor={`todo-${t.id}`}
+              className={t.done ? "line-though text-gray-500" : ""}
+            >
+             {t.title}
+            </label>
             <div className="ml-auto flex gap-2">
               <button
                 onClick={() => startEdit(t.id)}
@@ -111,12 +122,12 @@ export default function TodoPage() {
                 className="px-2 py-1 text-sm border rounded text-red-600"
               >
                 削除
-              </button>  
+              </button>
             </div>
           </li>
         ))}
       </ul>
     </main>
-  )
-};
+  );
+}
 
