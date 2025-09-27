@@ -40,7 +40,7 @@ export default function TodoPage() {
           type="text"
           placeholder="タスクを入力"
         />
-        <button type="subumit" className="bg-blue-600 text-white px-4 py-2 rounded">
+        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
           追加
         </button>
       </form>}
@@ -48,7 +48,7 @@ export default function TodoPage() {
       <form onSubmit={saveEdit} className="flex gap-2">
         <input
           value={editTitle}
-          onChange={(e) => ssetEditTitle(e.target.value)}
+          onChange={(e) => setEditTitle(e.target.value)}
           className="border px-3 py-2 rounded w-full text-black"
           type="text"
           placeholder="編集内容を入力"
@@ -71,7 +71,7 @@ export default function TodoPage() {
               id={`todo-${t.id}`}
               type="checkbox"
               checked={t.done}
-              onChange={() => ToggleEvent.id}
+              onChange={() => toggle(t.id)}
             />
             <label
               htmlFor={`todo-${t.id}`}
